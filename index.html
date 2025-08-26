@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulir Peminjaman Motor</title>
+  <link rel="icon" type="image/png" href="image/1.png">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 15px;
+    }
+
+    .container {
+      background: #fff;
+      padding: 20px 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 700px;
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 18px;
+      color: #1f2937;
+      font-size: 20px;
+    }
+
+    ol {
+      padding-left: 20px;
+      margin-bottom: 20px;
+    }
+
+    li {
+      margin-bottom: 10px;
+      line-height: 1.6;
+      font-size: 15px;
+      color: #374151;
+    }
+
+    ul {
+      margin-top: 6px;
+      margin-bottom: 6px;
+      padding-left: 20px;
+      list-style-type: disc;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #2563eb;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #1e40af;
+    }
+
+    .btn:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    .form-section {
+      display: none;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+    }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 768px) {
+      .container {
+        padding: 18px 20px;
+      }
+
+      h2 {
+        font-size: 18px;
+      }
+
+      li {
+        font-size: 14px;
+      }
+
+      .btn {
+        font-size: 15px;
+        padding: 11px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 15px 15px;
+      }
+
+      h2 {
+        font-size: 16px;
+      }
+
+      li {
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+
+      .btn {
+        font-size: 14px;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="rules-section">
+    <h2>📌 Aturan Peminjaman Motor Kelas PPTI 21</h2>
+    <ol>
+      <li>Prioritas utama pemakaian motor adalah untuk <b>PPTI 21</b>.</li>
+      <li>Selain kelas PPTI 21 peminjaman motor akan dilakukan dengan sistem sewa.</li>
+      <li>
+        Batas waktu pemakaian:
+        <ul>
+          <li>Kelas PPTI 21 → maksimal <b>5 jam per hari</b> (gratis).</li>
+          <li>Selain PPTI 21 → maksimal <b>3 jam per hari</b> (Rp10.000/jam).</li>
+          <li>Kepanitiaan → maksimal <b>5 jam per hari</b> (gratis) bisa lebih jika sudah mendapat izin.</li>
+        </ul>
+      </li>
+      <li>Di luar kelas PPTI 21 jika penggunaan &lt; 1 jam atau hanya untuk beli makan, maka tidak dikenakan biaya sewa.</li>
+      <li>Penggunaan/Peminjaman motor lebih dari batas waktu yang telah ditentukan maka <b>tidak akan diizinkan.</b></li>
+      <li>Semua uang sewa akan masuk ke kas kelas.</li>
+    </ol>
+    <button onclick="location.href='form.html'" class="btn" id="agree-btn">Saya Setuju</button>
+  </div>
+</body>
+</html>

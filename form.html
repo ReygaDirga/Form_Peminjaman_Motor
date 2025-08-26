@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulir Peminjaman Motor</title>
+  <link rel="icon" type="image/png" href="image/1.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 10px;
+      max-width: 550px;
+      width: 100%;
+      padding: 0;
+      overflow: hidden;
+      box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .container::before,
+    .container::after {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 18px;
+      background: linear-gradient(to right, #a7a7a7, #2b3a67, #000000);
+    }
+
+    .content {
+      padding: 40px 50px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    /* ==== LOGO DINAMIS ==== */
+    .header img {
+      width: 100px; /* default ukuran sedang */
+      max-width: 35%;
+      transition: all 0.3s ease;
+      margin-bottom: 15px;
+    }
+
+    .header h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #222;
+      line-height: 1.4;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    input, textarea {
+      border: none;
+      border-bottom: 2px solid #ccc;
+      font-size: 14px;
+      padding: 8px 4px;
+      outline: none;
+      width: 100%;
+      background: transparent;
+      transition: border-color 0.3s;
+    }
+
+    input:focus, textarea:focus {
+      border-bottom: 2px solid #2b3a67;
+    }
+
+    textarea {
+      resize: none;
+      height: 60px;
+    }
+
+    button {
+      background: #2b2d42;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    button:hover {
+      background: #374367;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #222;
+    }
+
+    /* ================== RESPONSIVE ================== */
+    @media (max-width: 768px) {
+      .content {
+        padding: 30px 25px;
+      }
+
+      .header img {
+        width: 120px; /* di tablet/log HP lebih besar */
+        max-width: 50%;
+      }
+
+      .header h2 {
+        font-size: 18px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .content {
+        padding: 25px 18px;
+      }
+
+      .header img {
+        width: 140px; /* di HP kecil lebih besar lagi */
+        max-width: 60%;
+      }
+
+      .header h2 {
+        font-size: 16px;
+      }
+
+      label {
+        font-size: 12px;
+      }
+
+      input, textarea {
+        font-size: 12px;
+      }
+
+      button {
+        font-size: 13px;
+        padding: 9px;
+      }
+
+      .footer {
+        font-size: 12px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .header img {
+        width: 90px; /* di laptop/layar gede agak kecil */
+        max-width: 25%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="content">
+      <div class="header">
+        <img src="image/logo.png" alt="Logo">
+        <h2>FORMULIR PEMINJAMAN MOTOR<br>KELAS PPTI 21</h2>
+      </div>
+
+      <form id="pinjamForm">
+        <div>
+          <label>Email</label>
+          <input type="email" required>
+        </div>
+        <div>
+          <label>Nama Lengkap</label>
+          <input type="text" required>
+        </div>
+        <div>
+          <label>Kelas</label>
+          <input type="text" required>
+        </div>
+        <div>
+          <label>Hari Peminjaman</label>
+          <input type="date" required>
+        </div>
+        <div>
+          <label>Jam Pemakaian</label>
+          <input type="time" required>
+        </div>
+        <div>
+          <label>Selesai Pemakaian</label>
+          <input type="time" required>
+        </div>
+        <div>
+          <label>Alasan Penggunaan</label>
+          <textarea required></textarea>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+
+      <div class="footer">
+        <p>Terima kasih telah bersedia mengisi formulir ini.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("pinjamForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      alert("Form berhasil dikirim! 🚀");
+      this.reset();
+    });
+  </script>
+
+</body>
+</html>
