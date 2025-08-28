@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Formulir Peminjaman Motor</title>
   <link rel="icon" type="image/png" href="image/1.png">
+  <script>
+    sessionStorage.removeItem("agreed");
+
+    function agree() {
+      sessionStorage.setItem("agreed", "true");
+      window.location.href = "form.html";
+    }
+  </script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -145,7 +153,7 @@
       <li>Penggunaan/Peminjaman motor lebih dari batas waktu yang telah ditentukan maka <b>tidak akan diizinkan.</b></li>
       <li>Semua uang sewa akan masuk ke kas kelas.</li>
     </ol>
-    <button onclick="location.href='form.html'" class="btn" id="agree-btn">Saya Setuju</button>
+    <button onclick="agree()" class="btn" id="agree-btn">Saya Setuju</button>
   </div>
 </body>
 </html>
