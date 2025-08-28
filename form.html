@@ -25,7 +25,7 @@
         <h2>FORMULIR PEMINJAMAN MOTOR<br>KELAS PPTI 21</h2>
       </div>
 
-      <form id="pinjamForm">
+      <form id="pinjamForm" name="peminjaman-motor">
         <div>
           <label>Email</label>
           <input type="email" name="email" required>
@@ -63,9 +63,17 @@
     </div>
   </div>
 
-  <script>
-    
-  </script>
+<script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbwJtBZ0WBwNi409TQWBboeEWq5rpjf03bNDrD28nOM6dEBwTr5UKN1AaeIMMmepQhmR/exec'
+  const form = document.forms['peminjaman-motor']
+
+  form.addEventListener('submit', e => {
+    e.preventDefault()
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(response => console.log('Success!', response))
+      .catch(error => console.error('Error!', error.message))
+  })
+</script>
 
 </body>
 </html>
