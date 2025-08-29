@@ -27,16 +27,29 @@
 
       <form id="pinjamForm" name="peminjaman-motor">
         <div>
-          <label>Email</label>
-          <input type="email" name="email" required>
-        </div>
-        <div>
-          <label>Nama Lengkap</label>
+          <label>Nama Peminjam</label>
           <input type="text" name="nama" required>
         </div>
         <div>
           <label>Kelas</label>
-          <input type="text" name="kelas" required>
+          <select name="kelas" id="kelas" class="select">
+            <option value="" selected disabled hidden>-- Pilih Kelas --</option>
+            <option value="PPBP 5">PPBP 5</option>
+            <option value="PPBP 6">PPBP 6</option>
+            <option value="PPBP 7">PPBP 7</option>
+            <option value="PPBP 8">PPBP 8</option>
+            <option value="PPBP 9">PPBP 9</option>
+            <option value="PPBP 10">PPBP 10</option>
+            <option value="PPTI 17">PPTI 17</option>
+            <option value="PPTI 18">PPTI 18</option>
+            <option value="PPTI 19">PPTI 19</option>
+            <option value="PPTI 20">PPTI 20</option>
+            <option value="PPTI 21">PPTI 21</option>
+            <option value="PPTI 22">PPTI 22</option>
+            <option value="PPTI 23">PPTI 23</option>
+            <option value="PPTI 24">PPTI 24</option>
+            <option value="PPTI 25">PPTI 25</option>
+          </select>
         </div>
         <div>
           <label>Hari Peminjaman</label>
@@ -54,6 +67,14 @@
           <label>Alasan Penggunaan</label>
           <textarea name="alasan" required></textarea>
         </div>
+        <div>
+          <label>Butuh STNK</label>
+          <select name="stnk" id="stnk" class="select">
+            <option value="" selected disabled hidden></option>
+            <option value="Perlu">Perlu</option>
+            <option value="Tidak">Tidak</option>
+          </select>
+        </div>
         <button type="submit">Submit</button>
       </form>
 
@@ -63,17 +84,18 @@
     </div>
   </div>
 
-<script>
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbwJtBZ0WBwNi409TQWBboeEWq5rpjf03bNDrD28nOM6dEBwTr5UKN1AaeIMMmepQhmR/exec'
-  const form = document.forms['peminjaman-motor']
+  <!-- Loader -->
+  <div id="loader"></div>
 
-  form.addEventListener('submit', e => {
-    e.preventDefault()
-    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-      .then(response => console.log('Success!', response))
-      .catch(error => console.error('Error!', error.message))
-  })
-</script>
+  <!-- Modal sukses -->
+  <div id="successModal">
+    <div class="modal-content">
+      <h3>✅ Berhasil!</h3>
+      <p>Form sudah terkirim.</p>
+      <button onclick="closeModal()">Tutup</button>
+    </div>
+  </div>
+
 
 </body>
 </html>

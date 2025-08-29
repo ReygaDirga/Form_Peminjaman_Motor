@@ -1,50 +1,94 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("pinjamForm");
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbwJtBZ0WBwNi409TQWBboeEWq5rpjf03bNDrD28nOM6dEBwTr5UKN1AaeIMMmepQhmR/exec';
+
+  const loader = document.getElementById("loader");
+  const modal = document.getElementById("successModal");
+
+  function showError(input, message) {
+    let errorEl = input.parentElement.querySelector(".error-msg");
+    if (!errorEl) {
+      errorEl = document.createElement("div");
+      errorEl.className = "error-msg";
+      input.parentElement.appendChild(errorEl);
+    }
+    errorEl.innerText = message;
+    errorEl.style.display = "block";
+  }
+
+  function clearErrors() {
+    document.querySelectorAll(".error-msg").forEach(e => e.style.display = "none");
+  }
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
+    clearErrors();
 
-    let tanggal = form.querySelector('input[name="tanggal"]').value;
-    let jamMulai = form.querySelector('input[name="jam_mulai"]').value;
-    let jamSelesai = form.querySelector('input[name="jam_selesai"]').value;
+    let tanggal = form.querySelector('input[name="tanggal"]');
+    let jamMulai = form.querySelector('input[name="jam_mulai"]');
+    let jamSelesai = form.querySelector('input[name="jam_selesai"]');
+    let kelas = form.querySelector('select[name="kelas"]');
 
-    // --- 1. Validasi Tanggal kosong
-    if (!tanggal) {
-      alert("Tanggal harus diisi.");
+    // --- Validasi tanggal kosong
+    if (!tanggal.value) {
+      showError(tanggal, "Tanggal harus diisi.");
       return;
     }
 
-    // --- 2. Validasi Tanggal tidak di masa lalu
-    let today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    let parts = tanggal.split("-"); // YYYY-MM-DD
-    let pinjamDate = new Date(parts[0], parts[1] - 1, parts[2]);
+    // --- Validasi tanggal tidak di masa lalu
+    let today = new Date(); today.setHours(0,0,0,0);
+    let parts = tanggal.value.split("-");
+    let pinjamDate = new Date(parts[0], parts[1]-1, parts[2]);
 
     if (pinjamDate < today) {
-      alert("Tanggal tidak boleh di masa lalu.");
+      showError(tanggal, "Tanggal tidak boleh di masa lalu.");
       return;
     }
 
-    // --- 3. Validasi Jam kosong
-    if (!jamMulai || !jamSelesai) {
-      alert("Jam mulai dan jam selesai harus diisi.");
+    // --- Validasi jam kosong
+    if (!jamMulai.value || !jamSelesai.value) {
+      showError(jamMulai, "Jam mulai dan jam selesai harus diisi.");
       return;
     }
 
-    // --- 4. Validasi Jam berurutan
+    // --- Validasi jam berurutan
     function toMinutes(jam) {
       let [h, m] = jam.split(":").map(Number);
       return h * 60 + m;
     }
+    let mulai = toMinutes(jamMulai.value);
+    let selesai = toMinutes(jamSelesai.value);
 
-    if (toMinutes(jamSelesai) <= toMinutes(jamMulai)) {
-      alert("Jam selesai harus setelah jam mulai.");
+    if (selesai <= mulai) {
+      showError(jamSelesai, "Jam selesai harus setelah jam mulai.");
       return;
     }
 
-    // ✅ Kalau semua valid
-    alert("Form berhasil dikirim 🚀");
-    form.reset();
+    // --- Validasi sesuai aturan kelas
+    let durasi = selesai - mulai;
+    let maxDurasi = (kelas.value === "PPTI 21") ? 5*60 : 3*60;
+
+    if (durasi > maxDurasi) {
+      showError(jamSelesai, `Kelas ${kelas.value} hanya boleh maksimal ${maxDurasi/60} jam.`);
+      return;
+    }
+
+    // ✅ Semua valid → submit
+    loader.style.display = "block"; // tampilkan loader
+
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(() => {
+        loader.style.display = "none";
+        modal.style.display = "block"; // tampilkan modal sukses
+        form.reset();
+      })
+      .catch(error => {
+        loader.style.display = "none";
+        alert("Error: " + error.message);
+      });
   });
 });
+
+function closeModal() {
+  document.getElementById("successModal").style.display = "none";
+}
