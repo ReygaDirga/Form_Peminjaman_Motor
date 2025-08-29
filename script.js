@@ -80,6 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then(() => {
         loader.style.display = "none";
         modal.style.display = "block"; // tampilkan modal sukses
+        document.body.style.overflow = "hidden"; // ⛔ disable scroll
         form.reset();
       })
       .catch(error => {
@@ -91,4 +92,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function closeModal() {
   document.getElementById("successModal").style.display = "none";
+  document.body.style.overflow = "auto"; // ✅ balikin scroll lagi
 }
