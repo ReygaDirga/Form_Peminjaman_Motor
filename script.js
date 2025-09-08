@@ -29,13 +29,11 @@ document.addEventListener("DOMContentLoaded", function () {
     let jamSelesai = form.querySelector('input[name="jam_selesai"]');
     let kelas = form.querySelector('select[name="kelas"]');
 
-    // --- Validasi tanggal kosong
     if (!tanggal.value) {
       showError(tanggal, "Tanggal harus diisi.");
       return;
     }
 
-    // --- Validasi tanggal tidak di masa lalu
     let today = new Date(); today.setHours(0,0,0,0);
     let parts = tanggal.value.split("-");
     let pinjamDate = new Date(parts[0], parts[1]-1, parts[2]);
@@ -45,13 +43,11 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // --- Validasi jam kosong
     if (!jamMulai.value || !jamSelesai.value) {
       showError(jamMulai, "Jam mulai dan jam selesai harus diisi.");
       return;
     }
 
-    // --- Validasi jam berurutan
     function toMinutes(jam) {
       let [h, m] = jam.split(":").map(Number);
       return h * 60 + m;
@@ -64,7 +60,6 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // --- Validasi sesuai aturan kelas
     let durasi = selesai - mulai;
     let maxDurasi = (kelas.value === "PPTI 21") ? 5*60 : 3*60;
 
@@ -72,15 +67,13 @@ document.addEventListener("DOMContentLoaded", function () {
       showError(jamSelesai, `Kelas ${kelas.value} hanya boleh maksimal ${maxDurasi/60} jam.`);
       return;
     }
-
-    // ✅ Semua valid → submit
-    loader.style.display = "block"; // tampilkan loader
+    loader.style.display = "block";
 
     fetch(scriptURL, { method: 'POST', body: new FormData(form)})
       .then(() => {
         loader.style.display = "none";
-        modal.style.display = "block"; // tampilkan modal sukses
-        document.body.style.overflow = "hidden"; // ⛔ disable scroll
+        modal.style.display = "block"; 
+        document.body.style.overflow = "hidden";
         form.reset();
       })
       .catch(error => {
@@ -92,5 +85,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function closeModal() {
   document.getElementById("successModal").style.display = "none";
-  document.body.style.overflow = "auto"; // ✅ balikin scroll lagi
+  document.body.style.overflow = "auto";
 }
