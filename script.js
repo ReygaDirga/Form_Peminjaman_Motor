@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("pinjamForm");
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbyM6wDM-HT4t8O3axQk2O-5PTqlcBjlijyiWJSyrQENnmTLGnd_p_4cbZlu4yzsRgfa/exec';
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbxU9d2pP9wiFA5yLqXy9RnQwnfvq9ZvL52IMKerpG_xuHFol8zj8Pg0784uZqtsxe5H/exec';
 
   const modal = document.getElementById("successModal");
 
