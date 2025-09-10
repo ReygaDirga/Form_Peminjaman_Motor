@@ -15,6 +15,7 @@
       }
     }
   </script>
+  
 </head>
 <body>
 
@@ -84,18 +85,22 @@
     </div>
   </div>
 
-  <!-- Loader -->
-  <div id="loader"></div>
-
   <!-- Modal sukses -->
-  <div id="successModal">
-    <div class="modal-content">
-      <h3>✅ Berhasil Kirim</h3>
-      <p>Terima kasih telah mengisi formulir ini.</p>
-      <button onclick="closeModal()">Tutup</button>
+  <div id="successModal" class="custom-modal">
+    <div class="custom-modal-content">
+      <div class="custom-modal-icon">
+        <img src="image/zims2.png" style="width: 200px;" alt="" srcset="">
+      </div>
+      <h2 class="custom-modal-title">Yey Berhasil</h2>
+      <p class="custom-modal-desc">Data kamu udah zims catat ya. Terima kasih sudah mengisi</p>
+      <button class="custom-modal-btn" onclick="closeModal()">Ok</button>
     </div>
   </div>
+  
+  
 
 
 </body>
 </html>
+
+

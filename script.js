@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("pinjamForm");
   const scriptURL = 'https://script.google.com/macros/s/AKfycbyM6wDM-HT4t8O3axQk2O-5PTqlcBjlijyiWJSyrQENnmTLGnd_p_4cbZlu4yzsRgfa/exec';
 
-  const loader = document.getElementById("loader");
   const modal = document.getElementById("successModal");
 
   function showError(input, message) {
@@ -67,19 +66,16 @@ document.addEventListener("DOMContentLoaded", function () {
       showError(jamSelesai, `Kelas ${kelas.value} hanya boleh maksimal ${maxDurasi/60} jam.`);
       return;
     }
-    loader.style.display = "block";
 
-    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-      .then(() => {
-        loader.style.display = "none";
-        modal.style.display = "block"; 
-        document.body.style.overflow = "hidden";
-        form.reset();
-      })
+    const formData = new FormData(form);
+    modal.style.display = "block";
+    document.body.style.overflow = "hidden";
+    fetch(scriptURL, { method: 'POST', body: formData })
       .catch(error => {
-        loader.style.display = "none";
         alert("Error: " + error.message);
       });
+
+    form.reset();
   });
 });
 
