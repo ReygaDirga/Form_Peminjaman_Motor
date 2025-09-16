@@ -23,17 +23,26 @@ document.addEventListener("DOMContentLoaded", function () {
     e.preventDefault();
     clearErrors();
 
+    let nama = form.querySelector('input[name="nama"]');
     let tanggal = form.querySelector('input[name="tanggal"]');
     let jamMulai = form.querySelector('input[name="jam_mulai"]');
     let jamSelesai = form.querySelector('input[name="jam_selesai"]');
     let kelas = form.querySelector('select[name="kelas"]');
+
+    let namaValue = nama.value.trim();
+    let regexNama = /^[a-zA-Z0-9\s]+$/;
+    if (!regexNama.test(namaValue)) {
+      showError(nama, "Nama hanya boleh huruf, angka, dan spasi (tanpa simbol).");
+      return;
+    }
 
     if (!tanggal.value) {
       showError(tanggal, "Tanggal harus diisi.");
       return;
     }
 
-    let today = new Date(); today.setHours(0,0,0,0);
+    let today = new Date(); 
+    today.setHours(0,0,0,0);
     let parts = tanggal.value.split("-");
     let pinjamDate = new Date(parts[0], parts[1]-1, parts[2]);
 
