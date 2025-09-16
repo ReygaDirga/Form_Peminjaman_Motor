@@ -1,0 +1,58 @@
+body { 
+    font-family: system-ui, Arial, sans-serif; 
+    color:black; 
+    margin:0; 
+}
+.wrap { 
+    max-width: 980px; 
+    margin: 24px auto; 
+    padding: 0 16px; 
+}
+.card {  
+    border:1px solid #2a2a2a; 
+    border-radius:12px; 
+    padding:16px; 
+    box-shadow:0 6px 24px rgba(0,0,0,.25);
+}
+.row { 
+    display:flex; 
+    gap:12px; 
+    align-items:center; 
+    flex-wrap:wrap; 
+}
+input[type="date"]{ 
+    color:black; 
+    border:1px solid #2a2a2a; 
+    border-radius:8px; 
+    padding:10px 12px; 
+}
+button{ 
+    background:#2b3a67; 
+    color:#fff; border:0; 
+    border-radius:8px; 
+    padding:10px 14px; 
+    cursor:pointer;
+}
+button:disabled{ 
+    opacity:.6; 
+    cursor:not-allowed; 
+}
+table{ 
+    width:100%; 
+    border-collapse:collapse; 
+    margin-top:14px; 
+    font-size:14px;
+}
+th,td{ 
+    border-bottom:1px solid #2a2a2a; 
+    padding:10px; 
+    text-align:left; 
+}
+th{  
+    position:sticky; 
+    top:0; 
+}
+.empty{ 
+    padding:16px; 
+    color:#bbb; 
+}

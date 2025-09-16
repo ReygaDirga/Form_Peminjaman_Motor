@@ -50,16 +50,12 @@ ul {
     padding: 12px;
     border: none;
     border-radius: 8px;
-    background: #2563eb;
+    background: #2b3a67;
     color: #fff;
     font-size: 16px;
     cursor: pointer;
     transition: 0.3s;
-}
-
-.btn:hover {
-    background: #1e40af;
-}
+}   
 
 .btn:disabled {
     background: #9ca3af;

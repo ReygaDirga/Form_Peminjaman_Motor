@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulir Peminjaman Motor</title>
+  <link rel="icon" type="image/png" href="image/1.png">
+  <link rel="stylesheet" href="CSS/index.css">
+  <script>
+    sessionStorage.removeItem("agreed");
+
+    function agree() {
+      sessionStorage.setItem("agreed", "true");
+      window.location.href = "form.html";
+    }
+  </script>
+</head>
+<body>
+  <div class="container" id="rules-section">
+    <h2>📌 Aturan Peminjaman Motor Kelas PPTI 21</h2>
+    <ol>
+      <li>Motor di siapkan untuk mendukung aktivitas <b>PPTI 21</b>.</li>
+      <li>Selain kelas PPTI 21 peminjaman motor akan dilakukan dengan sistem sewa.</li>
+      <li>
+        Batas waktu pemakaian:
+        <ul>
+          <li>Kelas PPTI 21 → Gratis <b>5 jam per hari</b> Lebih dari itu akan dikenakan denda Rp10.000/jam.</li>
+          <li>Selain PPTI 21 → maksimal <b>3 jam per hari</b> (Rp10.000/jam).</li>
+          <li>Kepanitiaan → maksimal <b>5 jam per hari</b> (gratis) bisa lebih jika sudah mendapat izin.</li>
+        </ul>
+      </li>
+      <li>Di luar kelas PPTI 21 jika penggunaan &lt; 1 jam atau hanya untuk beli makan, maka tidak dikenakan biaya sewa.</li>
+      <li>Penggunaan/Peminjaman motor lebih dari batas waktu yang telah ditentukan maka <b>tidak akan diizinkan.</b></li>
+      <li>Semua uang sewa akan masuk ke kas kelas.</li>
+    </ol>
+    <button onclick="agree()" class="btn" id="agree-btn">Saya Setuju</button>
+  </div>
+</body>
+</html>

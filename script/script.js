@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("pinjamForm");
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbzRvnJyGolsSv2vt9WZlFLYzdDfWNMD4cjUFOslJ3Uf_mUDWCpTkg16FfHRr_Dni2qU8w/exec';
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbxlmieVO-aSbpIxYbSc_XQBK48Idf8c-gGccBKGq7mtglO6UBcbDdOEyGr9fLuaI6We_w/exec';
 
   const modal = document.getElementById("successModal");
 
@@ -82,4 +82,5 @@ document.addEventListener("DOMContentLoaded", function () {
 function closeModal() {
   document.getElementById("successModal").style.display = "none";
   document.body.style.overflow = "auto";
+  window.location.href = "index.html";
 }
