@@ -1,39 +1,138 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Formulir Peminjaman Motor</title>
   <link rel="icon" type="image/png" href="image/1.png">
-  <link rel="stylesheet" href="CSS/index.css">
-  <script>
-    sessionStorage.removeItem("agreed");
-
-    function agree() {
-      sessionStorage.setItem("agreed", "true");
-      window.location.href = "form.html";
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
     }
-  </script>
+
+    body {
+      background: #f4f2ed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+
+    .container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .left {
+      flex: 1;
+      min-width: 250px;
+      text-align: left;
+    }
+
+    .timer {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      color: #2c3e50;
+    }
+
+    p {
+      color: #7f8c8d;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      background: #ff875d;
+      color: white;
+      padding: 0.7rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #ff6430;
+    }
+
+    .right {
+      flex: 1;
+      min-width: 250px;
+      text-align: center;
+    }
+
+    .right img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        text-align: center;
+      }
+      .right {
+        order: -1;
+      }
+      .left {
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="container" id="rules-section">
-    <h2>📌 Aturan Peminjaman Motor Kelas PPTI 21</h2>
-    <ol>
-      <li>Motor di siapkan untuk mendukung aktivitas <b>PPTI 21</b>.</li>
-      <li>Selain kelas PPTI 21 peminjaman motor akan dilakukan dengan sistem sewa.</li>
-      <li>
-        Batas waktu pemakaian:
-        <ul>
-          <li>Kelas PPTI 21 → Gratis <b>5 jam per hari</b> Lebih dari itu akan dikenakan denda Rp10.000/jam.</li>
-          <li>Selain PPTI 21 → maksimal <b>3 jam per hari</b> (Rp10.000/jam).</li>
-          <li>Kepanitiaan → maksimal <b>5 jam per hari</b> (gratis) bisa lebih jika sudah mendapat izin.</li>
-        </ul>
-      </li>
-      <li>Di luar kelas PPTI 21 jika penggunaan &lt; 1 jam atau hanya untuk beli makan, maka tidak dikenakan biaya sewa.</li>
-      <li>Penggunaan/Peminjaman motor lebih dari batas waktu yang telah ditentukan maka <b>tidak akan diizinkan.</b></li>
-      <li>Semua uang sewa akan masuk ke kas kelas.</li>
-    </ol>
-    <button onclick="agree()" class="btn" id="agree-btn">Saya Setuju</button>
+  <div class="container">
+    <div class="right">
+      <img src="image/zims.png" alt="Maintenance Illustration" style="width: 250px; transform: scaleX(-1);">
+    </div>
+    <div class="left">
+      <h2>The site is currently down for maintenance</h2>
+      <p>Maaf ya, websitenya lagi down… ini Zims lagi coba perbaiki 👨‍🔧</p>
+    </div>
   </div>
+
+  <script>
+    const countdownEl = document.getElementById("countdown");
+    let countDownDate = new Date().getTime() + (6 * 60 * 60 * 1000);
+
+    let x = setInterval(function() {
+      let now = new Date().getTime();
+      let distance = countDownDate - now;
+
+      let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdownEl.innerHTML =
+        "00:" + (hours < 10 ? "0" + hours : hours) + ":" +
+        (minutes < 10 ? "0" + minutes : minutes) + ":" +
+        (seconds < 10 ? "0" + seconds : seconds);
+
+      if (distance < 0) {
+        clearInterval(x);
+        countdownEl.innerHTML = "00:00:00:00";
+      }
+    }, 1000);
+  </script>
 </body>
 </html>

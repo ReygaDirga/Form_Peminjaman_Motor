@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cek Peminjaman</title>
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; color:black; margin:0; }
+    .wrap { max-width: 980px; margin: 24px auto; padding: 0 16px; }
+    .card {  border:1px solid #2a2a2a; border-radius:12px; padding:16px; box-shadow:0 6px 24px rgba(0,0,0,.25);}
+    .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    input[type="date"]{ color:black; border:1px solid #2a2a2a; border-radius:8px; padding:10px 12px; }
+    button{ background:#1e88e5; color:#fff; border:0; border-radius:8px; padding:10px 14px; cursor:pointer;}
+    button:disabled{ opacity:.6; cursor:not-allowed; }
+    table{ width:100%; border-collapse:collapse; margin-top:14px; font-size:14px;}
+    th,td{ border-bottom:1px solid #2a2a2a; padding:10px; text-align:left; }
+    th{ background:#101010; position:sticky; top:0; }
+    .empty{ padding:16px; color:#bbb; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h2>Cek Ketersediaan Motor</h2>
+    <div class="card">
+      <div class="row">
+        <label for="tanggal"><b>Pilih tanggal</b></label>
+        <input id="tanggal" type="date">
+        <button id="cekBtn">Cek</button>
+        <button id="cekBtn">Isi Form</button>
+      </div>
+      <div id="result"></div>
+    </div>
+  </div>
+
+<script>
+  const API_URL = 'PASTE_WEB_APP_URL_HERE'; // ← ganti
+
+  const elDate = document.getElementById('tanggal');
+  const elBtn  = document.getElementById('cekBtn');
+  const elOut  = document.getElementById('result');
+
+  elDate.valueAsDate = new Date();
+
+  elBtn.addEventListener('click', () => {
+    if(!elDate.value) return;
+    fetchData(elDate.value);
+  });
+
+  async function fetchData(dateStr){
+    try{
+      elBtn.disabled = true; elBtn.textContent = 'Loading...';
+      elOut.innerHTML = '';
+      const res = await fetch(`${API_URL}?date=${encodeURIComponent(dateStr)}`);
+      const data = await res.json();
+      const rows = data?.rows ?? [];
+
+      if(rows.length === 0){
+        elOut.innerHTML = `<div class="empty">Tanggal <b>${dateStr}</b> kosong. Gak ada yang minjem. 😎</div>`;
+        return;
+      }
+
+      elOut.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Nama</th><th>Kelas</th><th>Tanggal</th>
+              <th>Jam Mulai</th><th>Jam Selesai</th><th>Alasan</th><th>STNK</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows.map(r => `
+              <tr>
+                <td>${esc(r.nama)}</td>
+                <td>${esc(r.kelas)}</td>
+                <td>${formatID(r.tanggal)}</td>
+                <td>${esc(r.jam_mulai)}</td>
+                <td>${esc(r.jam_selesai)}</td>
+                <td>${esc(r.alasan)}</td>
+                <td>${esc(r.stnk)}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>`;
+    }catch(err){
+      console.error(err);
+      elOut.innerHTML = `<div class="empty">Gagal ambil data. Cek URL Apps Script-nya ya.</div>`;
+    }finally{
+      elBtn.disabled = false; elBtn.textContent = 'Cek';
+    }
+  }
+
+  function esc(v){ return (v==null?'':String(v)).replace(/[&<>"']/g, s=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' }[s])); }
+  function formatID(yyyyMMdd){
+    const d = new Date(yyyyMMdd);
+    return isNaN(d) ? esc(yyyyMMdd) : d.toLocaleDateString('id-ID', { day:'2-digit', month:'long', year:'numeric' });
+  }
+</script>
+</body>
+</html>
