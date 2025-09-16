@@ -1,8 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("pinjamForm");
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbxlmieVO-aSbpIxYbSc_XQBK48Idf8c-gGccBKGq7mtglO6UBcbDdOEyGr9fLuaI6We_w/exec';
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbyAvxvG_6nNWmKMK5YMcO-trh8Km8dB_aOeK_qs_fuyqmiIA9G4N9ygm1WBlzl-j9Vw1A/exec';
 
-  const modal = document.getElementById("successModal");
+  const successModal = document.getElementById("successModal");
+  const errorModal = document.getElementById("errorModal");
 
   function showError(input, message) {
     let errorEl = input.parentElement.querySelector(".error-msg");
@@ -19,7 +20,12 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".error-msg").forEach(e => e.style.display = "none");
   }
 
-  form.addEventListener("submit", function (e) {
+  function toMinutes(jam) {
+    let [h, m] = jam.split(":").map(Number);
+    return h * 60 + m;
+  }
+
+  form.addEventListener("submit", async function (e) {
     e.preventDefault();
     clearErrors();
 
@@ -56,10 +62,6 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    function toMinutes(jam) {
-      let [h, m] = jam.split(":").map(Number);
-      return h * 60 + m;
-    }
     let mulai = toMinutes(jamMulai.value);
     let selesai = toMinutes(jamSelesai.value);
 
@@ -76,9 +78,33 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+    // 🔥 Cek bentrok via doGet
+    const apiUrl = scriptURL + "?date=" + tanggal.value;  
+    try {
+      let res = await fetch(apiUrl);
+      let data = await res.json();
+
+      let bentrok = data.rows.some(row => {
+        let mulaiAda = toMinutes(row.jam_mulai);
+        let selesaiAda = toMinutes(row.jam_selesai);
+        return (mulai < selesaiAda) && (selesai > mulaiAda);
+      });
+
+      if (bentrok) {
+        errorModal.style.display = "block";
+        document.body.style.overflow = "hidden";
+        return;
+      }
+    } catch (err) {
+      alert("Gagal cek jadwal: " + err.message);
+      return;
+    }
+
+    // ✅ Kalau aman, baru kirim
     const formData = new FormData(form);
-    modal.style.display = "block";
+    successModal.style.display = "block";
     document.body.style.overflow = "hidden";
+
     fetch(scriptURL, { method: 'POST', body: formData })
       .catch(error => {
         alert("Error: " + error.message);
@@ -90,6 +116,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function closeModal() {
   document.getElementById("successModal").style.display = "none";
+  document.body.style.overflow = "auto";
+  window.location.href = "index.html";
+}
+
+function closeErrorModal() {
+  document.getElementById("errorModal").style.display = "none";
+  document.body.style.overflow = "auto";
+}
+
+function ceks() {
+  document.getElementById("errorModal").style.display = "none";
   document.body.style.overflow = "auto";
   window.location.href = "index.html";
 }

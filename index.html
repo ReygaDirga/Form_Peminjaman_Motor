@@ -22,7 +22,7 @@
   </div>
 
 <script>
-  const API_URL = 'https://script.google.com/macros/s/AKfycbxlmieVO-aSbpIxYbSc_XQBK48Idf8c-gGccBKGq7mtglO6UBcbDdOEyGr9fLuaI6We_w/exec'; // ← ganti
+  const API_URL = 'https://script.google.com/macros/s/AKfycbyAvxvG_6nNWmKMK5YMcO-trh8Km8dB_aOeK_qs_fuyqmiIA9G4N9ygm1WBlzl-j9Vw1A/exec';
 
   const elDate = document.getElementById('tanggal');
   const elBtn  = document.getElementById('cekBtn');
@@ -80,6 +80,12 @@
     const d = new Date(yyyyMMdd);
     return isNaN(d) ? esc(yyyyMMdd) : d.toLocaleDateString('id-ID', { day:'2-digit', month:'long', year:'numeric' });
   }
+
+  fetch("footer.html")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("footer").innerHTML = data;
+  });
 </script>
 </body>
 </html>
