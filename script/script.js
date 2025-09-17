@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("pinjamForm");
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbyAvxvG_6nNWmKMK5YMcO-trh8Km8dB_aOeK_qs_fuyqmiIA9G4N9ygm1WBlzl-j9Vw1A/exec';
+  const scriptURL = "/api/form";
 
   const successModal = document.getElementById("successModal");
   const errorModal = document.getElementById("errorModal");
@@ -65,12 +65,10 @@ document.addEventListener("DOMContentLoaded", function () {
       showError(tanggal, "Tanggal harus diisi.");
       return;
     }
-
     let today = new Date();
     today.setHours(0,0,0,0);
     let parts = tanggal.value.split("-");
     let pinjamDate = new Date(parts[0], parts[1]-1, parts[2]);
-
     if (pinjamDate < today) {
       showError(tanggal, "Tanggal tidak boleh di masa lalu.");
       return;
@@ -80,10 +78,8 @@ document.addEventListener("DOMContentLoaded", function () {
       showError(jamMulai, "Jam mulai dan jam selesai harus diisi.");
       return;
     }
-
     let mulai = toMinutes(jamMulai.value);
     let selesai = toMinutes(jamSelesai.value);
-
     if (selesai <= mulai) {
       showError(jamSelesai, "Jam selesai harus setelah jam mulai.");
       return;
@@ -91,18 +87,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let durasi = selesai - mulai;
     let maxDurasi = (kelas.value === "PPTI 21") ? 5*60 : 3*60;
-
     if (durasi > maxDurasi) {
       showError(jamSelesai, `Kelas ${kelas.value} hanya boleh maksimal ${maxDurasi/60} jam.`);
       return;
     }
 
-    // --- langsung submit (gak ada loading 2 tahap) ---
     const formData = new FormData(form);
     setBtnLoading(true);
 
     try {
-      const postRes = await fetch(scriptURL, { method: 'POST', body: formData });
+      const postRes = await fetch(scriptURL, { method: "POST", body: formData });
       const postJson = await postRes.json();
 
       if (postJson.result === "error") {

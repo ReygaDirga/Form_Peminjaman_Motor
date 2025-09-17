@@ -42,9 +42,8 @@ body {
     margin-bottom: 25px;
 }
 
-/* ==== LOGO DINAMIS ==== */
 .header img {
-    width: 100px; /* default ukuran sedang */
+    width: 100px; 
     max-width: 35%;
     transition: all 0.3s ease;
     margin-bottom: 15px;
@@ -128,7 +127,6 @@ button:hover {
     color: #222;
 }
 
-/* Error message */
 .error-msg {
   color: red;
   font-size: 0.85em;
@@ -136,7 +134,6 @@ button:hover {
   display: none;
 }
 
-/* Loader */
 #loader {
   display: none;
   border: 6px solid #f3f3f3;
@@ -146,13 +143,12 @@ button:hover {
   height: 50px;
   animation: spin 1s linear infinite;
 
-  /* Biar selalu di tengah layar */
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 9999; /* di atas semua */
-  background: white; /* biar jelas */
+  z-index: 9999; 
+  background: white; 
   padding: 10px;
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
@@ -162,7 +158,7 @@ button:hover {
   100% { transform: rotate(360deg); }
 }
 
-/* Modal overlay */
+
 .custom-modal {
     display: none;
     position: fixed;
@@ -172,7 +168,7 @@ button:hover {
     backdrop-filter: blur(2px);
     animation: fadeIn 0.2s;
 }
-/* Modal box */
+
 .custom-modal-content {
     background: #fff;
     border-radius: 18px;
@@ -212,18 +208,15 @@ button:hover {
     box-shadow: 0 2px 8px rgba(37,99,235,0.08);
 }
 
-/* tambahin ke CSS form lo */
 button[type="submit"] {
   transition: all .15s ease;
 }
 
-/* state loading */
 button.loading {
   cursor: wait;
   opacity: 0.85;
 }
 
-/* spinner kecil di dalam button */
 button .spinner {
   display: inline-block;
   width: 14px;
@@ -261,8 +254,6 @@ button .spinner {
     }
 }
 
-
-/* Animasi */
 @keyframes fadeIn {
 from { opacity: 0; }
 to { opacity: 1; }
@@ -271,9 +262,6 @@ to { opacity: 1; }
 to { transform: scale(1); }
 }
 
-
-
-
 /* ================== RESPONSIVE ================== */
 @media (max-width: 768px) {
 .content {
@@ -281,7 +269,7 @@ padding: 30px 25px;
 }
 
 .header img {
-width: 120px; /* di tablet/log HP lebih besar */
+width: 120px;
 max-width: 50%;
 }
 
@@ -296,7 +284,7 @@ padding: 25px 18px;
 }
 
 .header img {
-width: 140px; /* di HP kecil lebih besar lagi */
+width: 140px;
 max-width: 60%;
 }
 
@@ -324,7 +312,7 @@ font-size: 12px;
 
 @media (min-width: 1024px) {
     .header img {
-    width: 90px; /* di laptop/layar gede agak kecil */
+    width: 90px;
     max-width: 25%;
     }
 }
