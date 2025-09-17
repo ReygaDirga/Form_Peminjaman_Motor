@@ -1,3 +1,9 @@
+export const config = {
+  api: {
+    bodyParser: false, // jangan auto-parse body
+  },
+};
+
 export default async function handler(req, res) {
   const scriptURL = process.env.GSHEET_SCRIPT_URL;
 
@@ -10,16 +16,17 @@ export default async function handler(req, res) {
     let fetchOptions = { method: req.method };
 
     if (req.method === "POST") {
-      const contentType = req.headers["content-type"] || "";
-
-      if (contentType.includes("application/json")) {
-        fetchOptions.headers = { "Content-Type": "application/json" };
-        fetchOptions.body = JSON.stringify(req.body);
-      } else {
-        const params = new URLSearchParams(req.body).toString();
-        fetchOptions.headers = { "Content-Type": "application/x-www-form-urlencoded" };
-        fetchOptions.body = params;
+      // ambil body mentah dari request
+      const chunks = [];
+      for await (const chunk of req) {
+        chunks.push(chunk);
       }
+      const rawBody = Buffer.concat(chunks).toString();
+
+      fetchOptions.headers = {
+        "Content-Type": req.headers["content-type"] || "application/x-www-form-urlencoded",
+      };
+      fetchOptions.body = rawBody;
     }
 
     const response = await fetch(targetURL, fetchOptions);
@@ -33,6 +40,7 @@ export default async function handler(req, res) {
     }
 
   } catch (err) {
+    console.error("Proxy error:", err);
     return res.status(500).json({ result: "error", message: err.message });
   }
 }
