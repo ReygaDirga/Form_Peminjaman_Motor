@@ -7,20 +7,28 @@ export default async function handler(req, res) {
       targetURL += req.url.substring(req.url.indexOf("?"));
     }
 
-    const response = await fetch(targetURL, {
-      method: req.method,
-      headers: {
-        "Content-Type": req.headers["content-type"] || "application/x-www-form-urlencoded",
-      },
-      body: req.method === "POST" ? req.body : undefined,
-    });
+    let fetchOptions = { method: req.method };
 
+    if (req.method === "POST") {
+      const contentType = req.headers["content-type"] || "";
+
+      if (contentType.includes("application/json")) {
+        fetchOptions.headers = { "Content-Type": "application/json" };
+        fetchOptions.body = JSON.stringify(req.body);
+      } else {
+        const params = new URLSearchParams(req.body).toString();
+        fetchOptions.headers = { "Content-Type": "application/x-www-form-urlencoded" };
+        fetchOptions.body = params;
+      }
+    }
+
+    const response = await fetch(targetURL, fetchOptions);
     const text = await response.text();
 
     try {
       const json = JSON.parse(text);
       return res.status(200).json(json);
-    } catch (e) {
+    } catch {
       return res.status(200).json({ raw: text });
     }
 
