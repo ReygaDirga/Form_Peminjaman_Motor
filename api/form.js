@@ -1,6 +1,6 @@
 export const config = {
   api: {
-    bodyParser: false, // jangan auto-parse body
+    bodyParser: false,
   },
 };
 
@@ -16,7 +16,6 @@ export default async function handler(req, res) {
     let fetchOptions = { method: req.method };
 
     if (req.method === "POST") {
-      // ambil body mentah dari request
       const chunks = [];
       for await (const chunk of req) {
         chunks.push(chunk);
