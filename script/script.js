@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const successModal = document.getElementById("successModal");
   const errorModal = document.getElementById("errorModal");
+  const submitBtn = form.querySelector('button[type="submit"]');
 
   function showError(input, message) {
     let errorEl = input.parentElement.querySelector(".error-msg");
@@ -21,13 +22,31 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function toMinutes(jam) {
-    let [h, m] = jam.split(":").map(Number);
-    return h * 60 + m;
+    let [h = 0, m = 0] = jam.split(":").map(Number);
+    return (h || 0) * 60 + (m || 0);
+  }
+
+  function setBtnLoading(loading, text = "Submitting...") {
+    if (loading) {
+      submitBtn.dataset.orig = submitBtn.innerHTML;
+      submitBtn.innerHTML = `<span class="spinner"></span>${text}`;
+      submitBtn.classList.add('loading');
+      submitBtn.disabled = true;
+    } else {
+      if (submitBtn.dataset.orig) {
+        submitBtn.innerHTML = submitBtn.dataset.orig;
+        delete submitBtn.dataset.orig;
+      }
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
   }
 
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
     clearErrors();
+
+    if (submitBtn.disabled) return;
 
     let nama = form.querySelector('input[name="nama"]');
     let tanggal = form.querySelector('input[name="tanggal"]');
@@ -47,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    let today = new Date(); 
+    let today = new Date();
     today.setHours(0,0,0,0);
     let parts = tanggal.value.split("-");
     let pinjamDate = new Date(parts[0], parts[1]-1, parts[2]);
@@ -78,39 +97,35 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // 🔥 Cek bentrok via doGet
-    const apiUrl = scriptURL + "?date=" + tanggal.value;  
+    // --- langsung submit (gak ada loading 2 tahap) ---
+    const formData = new FormData(form);
+    setBtnLoading(true);
+
     try {
-      let res = await fetch(apiUrl);
-      let data = await res.json();
+      const postRes = await fetch(scriptURL, { method: 'POST', body: formData });
+      const postJson = await postRes.json();
 
-      let bentrok = data.rows.some(row => {
-        let mulaiAda = toMinutes(row.jam_mulai);
-        let selesaiAda = toMinutes(row.jam_selesai);
-        return (mulai < selesaiAda) && (selesai > mulaiAda);
-      });
-
-      if (bentrok) {
+      if (postJson.result === "error") {
+        setBtnLoading(false);
         errorModal.style.display = "block";
         document.body.style.overflow = "hidden";
         return;
       }
+
+      if (postJson.result === "success") {
+        setBtnLoading(false);
+        successModal.style.display = "block";
+        document.body.style.overflow = "hidden";
+        form.reset();
+        return;
+      }
+
+      setBtnLoading(false);
+      alert("Respons tidak terduga dari server.");
     } catch (err) {
-      alert("Gagal cek jadwal: " + err.message);
-      return;
+      setBtnLoading(false);
+      alert("Gagal submit: " + err.message);
     }
-
-    // ✅ Kalau aman, baru kirim
-    const formData = new FormData(form);
-    successModal.style.display = "block";
-    document.body.style.overflow = "hidden";
-
-    fetch(scriptURL, { method: 'POST', body: formData })
-      .catch(error => {
-        alert("Error: " + error.message);
-      });
-
-    form.reset();
   });
 });
 
@@ -123,10 +138,4 @@ function closeModal() {
 function closeErrorModal() {
   document.getElementById("errorModal").style.display = "none";
   document.body.style.overflow = "auto";
-}
-
-function ceks() {
-  document.getElementById("errorModal").style.display = "none";
-  document.body.style.overflow = "auto";
-  window.location.href = "index.html";
 }
