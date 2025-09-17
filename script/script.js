@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("pinjamForm");
-  const scriptURL = "/api/form";
+  const scriptURL = "https://script.google.com/macros/s/AKfycbyAvxvG_6nNWmKMK5YMcO-trh8Km8dB_aOeK_qs_fuyqmiIA9G4N9ygm1WBlzl-j9Vw1A/exec";
 
   const successModal = document.getElementById("successModal");
   const errorModal = document.getElementById("errorModal");
@@ -45,7 +45,6 @@ document.addEventListener("DOMContentLoaded", function () {
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
     clearErrors();
-
     if (submitBtn.disabled) return;
 
     let nama = form.querySelector('input[name="nama"]');
@@ -65,6 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
       showError(tanggal, "Tanggal harus diisi.");
       return;
     }
+
     let today = new Date();
     today.setHours(0,0,0,0);
     let parts = tanggal.value.split("-");
@@ -78,6 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
       showError(jamMulai, "Jam mulai dan jam selesai harus diisi.");
       return;
     }
+
     let mulai = toMinutes(jamMulai.value);
     let selesai = toMinutes(jamSelesai.value);
     if (selesai <= mulai) {
@@ -92,6 +93,33 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+    // 🔥 CEK BENTROK DULU PAKE GET
+    try {
+      const res = await fetch(`${scriptURL}?date=${tanggal.value}`);
+      const data = await res.json();
+      let bentrok = false;
+
+      if (data.rows && Array.isArray(data.rows)) {
+        bentrok = data.rows.some(row => {
+          let mulaiAda = toMinutes(row.jam_mulai);
+          let selesaiAda = toMinutes(row.jam_selesai);
+
+          // overlap check
+          return (mulai < selesaiAda) && (selesai > mulaiAda);
+        });
+      }
+
+      if (bentrok) {
+        setBtnLoading(false);
+        errorModal.style.display = "block";
+        document.body.style.overflow = "hidden";
+        return;
+      }
+    } catch (err) {
+      console.error("Cek bentrok gagal:", err);
+    }
+
+    // 🔥 kalau gak bentrok → submit
     const formData = new FormData(form);
     setBtnLoading(true);
 

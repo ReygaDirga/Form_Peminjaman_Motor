@@ -22,7 +22,7 @@
   </div>
 
 <script>
-  const API_URL = '/api/cek';
+  const API_URL = 'https://script.google.com/macros/s/AKfycbyAvxvG_6nNWmKMK5YMcO-trh8Km8dB_aOeK_qs_fuyqmiIA9G4N9ygm1WBlzl-j9Vw1A/exec';
 
   const elDate = document.getElementById('tanggal');
   const elBtn  = document.getElementById('cekBtn');
@@ -37,8 +37,10 @@
 
   async function fetchData(dateStr){
     try{
-      elBtn.disabled = true; elBtn.textContent = 'Loading...';
-      elOut.innerHTML = '';
+      elBtn.disabled = true; 
+      elBtn.textContent = 'Loading...';
+      elOut.innerHTML = '<div class="empty">Mengambil data...</div>';
+
       const res = await fetch(`${API_URL}?date=${encodeURIComponent(dateStr)}`);
       const data = await res.json();
       const rows = data?.rows ?? [];
@@ -69,23 +71,17 @@
         </table>`;
     }catch(err){
       console.error(err);
-      elOut.innerHTML = `<div class="empty">Gagal ambil data. Cek URL Apps Script-nya ya.</div>`;
+      elOut.innerHTML = `<div class="empty">⚠️ Gagal ambil data dari Google Script.</div>`;
     }finally{
-      elBtn.disabled = false; elBtn.textContent = 'Cek';
+      elBtn.disabled = false; 
+      elBtn.textContent = 'Cek';
     }
   }
 
-  function esc(v){ return (v==null?'':String(v)).replace(/[&<>"']/g, s=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' }[s])); }
-  function formatID(yyyyMMdd){
-    const d = new Date(yyyyMMdd);
-    return isNaN(d) ? esc(yyyyMMdd) : d.toLocaleDateString('id-ID', { day:'2-digit', month:'long', year:'numeric' });
+  function esc(v){ 
+    return (v==null?'':String(v))
+      .replace(/[&<>"']/g, s=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' }[s]));
   }
-
-  fetch("footer.html")
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById("footer").innerHTML = data;
-  });
 </script>
 </body>
 </html>
