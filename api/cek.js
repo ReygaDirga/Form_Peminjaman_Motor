@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
   const { date } = req.query;
-  const apiUrl = process.env.SCRIPT_URL + '?date=' + encodeURIComponent(date);
+  const apiUrl = process.env.GSHEET_SCRIPT_URL + '?date=' + encodeURIComponent(date);
 
   try {
     const response = await fetch(apiUrl);
