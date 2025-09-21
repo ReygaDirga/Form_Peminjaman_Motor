@@ -45,7 +45,9 @@ document.addEventListener("DOMContentLoaded", function () {
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
     clearErrors();
+    
     if (submitBtn.disabled) return;
+    submitBtn.disabled = true;
 
     let nama = form.querySelector('input[name="nama"]');
     let tanggal = form.querySelector('input[name="tanggal"]');
@@ -57,25 +59,29 @@ document.addEventListener("DOMContentLoaded", function () {
     let regexNama = /^[a-zA-Z0-9\s]+$/;
     if (!regexNama.test(namaValue)) {
       showError(nama, "Nama hanya boleh huruf, angka, dan spasi (tanpa simbol).");
+      setBtnLoading(false);
       return;
     }
 
     if (!tanggal.value) {
       showError(tanggal, "Tanggal harus diisi.");
+      setBtnLoading(false);
       return;
     }
 
     let today = new Date();
-    today.setHours(0,0,0,0);
+    today.setHours(0, 0, 0, 0);
     let parts = tanggal.value.split("-");
-    let pinjamDate = new Date(parts[0], parts[1]-1, parts[2]);
+    let pinjamDate = new Date(parts[0], parts[1] - 1, parts[2]);
     if (pinjamDate < today) {
       showError(tanggal, "Tanggal tidak boleh di masa lalu.");
+      setBtnLoading(false);
       return;
     }
 
     if (!jamMulai.value || !jamSelesai.value) {
       showError(jamMulai, "Jam mulai dan jam selesai harus diisi.");
+      setBtnLoading(false);
       return;
     }
 
@@ -83,17 +89,18 @@ document.addEventListener("DOMContentLoaded", function () {
     let selesai = toMinutes(jamSelesai.value);
     if (selesai <= mulai) {
       showError(jamSelesai, "Jam selesai harus setelah jam mulai.");
+      setBtnLoading(false);
       return;
     }
 
     let durasi = selesai - mulai;
-    let maxDurasi = (kelas.value === "PPTI 21") ? 5*60 : 3*60;
+    let maxDurasi = (kelas.value === "PPTI 21") ? 5 * 60 : 3 * 60;
     if (durasi > maxDurasi) {
-      showError(jamSelesai, `Kelas ${kelas.value} hanya boleh maksimal ${maxDurasi/60} jam.`);
+      showError(jamSelesai, `Kelas ${kelas.value} hanya boleh maksimal ${maxDurasi / 60} jam.`);
+      setBtnLoading(false);
       return;
     }
 
-    // 🔥 CEK BENTROK DULU PAKE GET
     try {
       const res = await fetch(`${scriptURL}?date=${tanggal.value}`);
       const data = await res.json();
@@ -104,7 +111,6 @@ document.addEventListener("DOMContentLoaded", function () {
           let mulaiAda = toMinutes(row.jam_mulai);
           let selesaiAda = toMinutes(row.jam_selesai);
 
-          // overlap check
           return (mulai < selesaiAda) && (selesai > mulaiAda);
         });
       }
@@ -119,7 +125,6 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Cek bentrok gagal:", err);
     }
 
-    // 🔥 kalau gak bentrok → submit
     const formData = new FormData(form);
     setBtnLoading(true);
 
