@@ -15,6 +15,10 @@
       sessionStorage.setItem("agreed", "true");
       window.location.href = "form.html";
     }
+
+    function ketersediaan(){
+      window.location.href = "index.html";
+    }
   </script>
 </head>
 <body>
@@ -36,7 +40,10 @@
       <!-- <li>Peminjaman berikutnya hanya bisa <b> dimulai ≥ 30 menit</b> setelah peminjam sebelumnya selesai. Jika tidak, sistem akan menganggap jadwal bentrok.</li> -->
       <li>Semua uang sewa akan masuk ke kas kelas.</li>
     </ol>
-    <button onclick="agree()" class="btn" id="agree-btn">Saya Setuju</button>
+    <div style="text-align:center;">
+      <button onclick="agree()" class="btn">Saya Setuju</button>
+      <button onclick="ketersediaan()" class="btn">Cek Ketersediaan</button>
+    </div>
   </div>
 </body>
 </html>
