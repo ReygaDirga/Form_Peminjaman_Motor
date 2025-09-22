@@ -73,6 +73,14 @@ document.addEventListener("DOMContentLoaded", function () {
     today.setHours(0, 0, 0, 0);
     let parts = tanggal.value.split("-");
     let pinjamDate = new Date(parts[0], parts[1] - 1, parts[2]);
+
+    let d = pinjamDate.getDate();
+    if (d === 26 || d === 27 || d === 28) {
+      showError(tanggal, "Tanggal " + d + " Motor tidak tersedia untuk dipinjam.");
+      setBtnLoading(false);
+      return;
+    }
+
     if (pinjamDate < today) {
       showError(tanggal, "Tanggal tidak boleh di masa lalu.");
       setBtnLoading(false);
