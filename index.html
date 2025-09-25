@@ -1,89 +1,135 @@
-<!doctype html>
-<html lang="id">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Cek Peminjaman Motor</title>
-  <meta name="description" content="Cek status peminjaman motor Anda. Pastikan tanggal dan data sudah sesuai.">
-  <meta name="keywords" content="cek pinjam motor, status peminjaman motor ppti 21">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulir Peminjaman Motor</title>
   <link rel="icon" type="image/png" href="image/1.png">
-  <link rel="stylesheet" href="CSS/cek.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: #f4f2ed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+
+    .container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .left {
+      flex: 1;
+      min-width: 250px;
+      text-align: left;
+    }
+
+    .timer {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      color: #2c3e50;
+    }
+
+    p {
+      color: #7f8c8d;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      background: #2b3a67;
+      color: white;
+      padding: 0.7rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .right {
+      flex: 1;
+      min-width: 250px;
+      text-align: center;
+    }
+
+    .right img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        text-align: center;
+      }
+      .right {
+        order: -1;
+      } 
+      .left {
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="wrap">
-    <h2>Cek Ketersediaan Motor</h2>
-    <div class="card">
-      <div class="row">
-        <label for="tanggal"><b>Pilih tanggal</b></label>
-        <input id="tanggal" type="date">
-        <button id="cekBtn">Cek</button>
-        <!-- <button id="isiForm" onclick="window.location.href='peraturan.html'">Isi Form</button> -->
-      </div>
-      <div id="result"></div>
+  <div class="container">
+    <div class="right">
+      <img src="image/zims3.png" alt="Maintenance Illustration" style="width: 250px; transform: scaleX(-1);">
     </div>
+    <div class="left">
+      <h2>bye bye....💨</h2>
+      <p>Motornya zims pinjem dulu buat ke jakarta ya, See u Monday</p>
+    </div>
+    
   </div>
 
-<script>
-  const API_URL = 'https://script.google.com/macros/s/AKfycbyAvxvG_6nNWmKMK5YMcO-trh8Km8dB_aOeK_qs_fuyqmiIA9G4N9ygm1WBlzl-j9Vw1A/exec';
+  <script>
+    const countdownEl = document.getElementById("countdown");
+    let countDownDate = new Date().getTime() + (6 * 60 * 60 * 1000);
 
-  const elDate = document.getElementById('tanggal');
-  const elBtn  = document.getElementById('cekBtn');
-  const elOut  = document.getElementById('result');
+    let x = setInterval(function() {
+      let now = new Date().getTime();
+      let distance = countDownDate - now;
 
-  elDate.valueAsDate = new Date();
+      let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-  elBtn.addEventListener('click', () => {
-    if(!elDate.value) return;
-    fetchData(elDate.value);
-  });
+      countdownEl.innerHTML =
+        "00:" + (hours < 10 ? "0" + hours : hours) + ":" +
+        (minutes < 10 ? "0" + minutes : minutes) + ":" +
+        (seconds < 10 ? "0" + seconds : seconds);
 
-  async function fetchData(dateStr){
-    try{
-      elBtn.disabled = true; 
-      elBtn.textContent = 'Loading...';
-      elOut.innerHTML = '<div class="empty">Mengambil data...</div>';
-
-      const res = await fetch(`${API_URL}?date=${encodeURIComponent(dateStr)}`);
-      const data = await res.json();
-      const rows = data?.rows ?? [];
-
-      if(rows.length === 0){
-        elOut.innerHTML = `<div class="empty">Tidak ada peminjaman motor di tanggal <b>${dateStr}</b></div>`;
-        return;
+      if (distance < 0) {
+        clearInterval(x);
+        countdownEl.innerHTML = "00:00:00:00";
       }
-
-      elOut.innerHTML = `
-        <table>
-          <thead>
-            <tr>
-              <th>Jam Mulai</th><th>Jam Selesai</th>
-              <th>Nama</th><th>Kelas</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${rows.map(r => `
-              <tr>
-                <td>${esc(r.jam_mulai)}</td>
-                <td>${esc(r.jam_selesai)}</td>
-                <td>${esc(r.nama)}</td>
-                <td>${esc(r.kelas)}</td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>`;
-    }catch(err){
-      console.error(err);
-      elOut.innerHTML = `<div class="empty">⚠️ Gagal ambil data dari Google Script.</div>`;
-    }finally{
-      elBtn.disabled = false; 
-      elBtn.textContent = 'Cek';
-    }
-  }
-
-  function esc(v){ 
-    return (v==null?'':String(v))
-      .replace(/[&<>"']/g, s=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' }[s]));
-  }
-</script>
+    }, 1000);
+  </script>
 </body>
 </html>
