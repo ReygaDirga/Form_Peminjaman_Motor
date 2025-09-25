@@ -1,116 +1,138 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Formulir Peminjaman Motor</title>
-  <meta name="description" content="Isi formulir peminjaman motor dengan mudah. Pastikan data sesuai agar proses peminjaman berjalan lancar.">
-  <meta name="keywords" content="form pinjam motor, peminjaman motor ppti 21, sewa motor online">
   <link rel="icon" type="image/png" href="image/1.png">
-  <script src="script/script.js"></script>
-  <link rel="stylesheet" href="CSS/form.css">
-  <script>
-    window.onload = function() {
-      if (sessionStorage.getItem("agreed") !== "true") {
-        alert("Harap klik 'Saya Setuju' di halaman sebelumnya.");
-        window.location.href = "peraturan.html";
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: #f4f2ed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+
+    .container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .left {
+      flex: 1;
+      min-width: 250px;
+      text-align: left;
+    }
+
+    .timer {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      color: #2c3e50;
+    }
+
+    p {
+      color: #7f8c8d;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      background: #ff875d;
+      color: white;
+      padding: 0.7rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #ff6430;
+    }
+
+    .right {
+      flex: 1;
+      min-width: 250px;
+      text-align: center;
+    }
+
+    .right img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        text-align: center;
+      }
+      .right {
+        order: -1;
+      } 
+      .left {
+        text-align: center;
       }
     }
-  </script>
-  
+  </style>
 </head>
 <body>
-
   <div class="container">
-    <div class="content">
-      <div class="header">
-        <img src="image/logo.png" alt="Logo">
-        <h2>FORMULIR PEMINJAMAN MOTOR<br>KELAS PPTI 21</h2>
-      </div>
-
-      <form id="pinjamForm" name="peminjaman-motor">
-        <div>
-          <label>Nama Peminjam</label>
-          <input type="text" name="nama" required>
-        </div>
-        <div>
-          <label>Kelas</label>
-          <select name="kelas" id="kelas" class="select">
-            <option value="" selected disabled hidden>-- Pilih Kelas --</option>
-            <option value="PPBP 5">PPBP 5</option>
-            <option value="PPBP 6">PPBP 6</option>
-            <option value="PPBP 7">PPBP 7</option>
-            <option value="PPBP 8">PPBP 8</option>
-            <option value="PPBP 9">PPBP 9</option>
-            <option value="PPBP 10">PPBP 10</option>
-            <option value="PPTI 17">PPTI 17</option>
-            <option value="PPTI 18">PPTI 18</option>
-            <option value="PPTI 19">PPTI 19</option>
-            <option value="PPTI 20">PPTI 20</option>
-            <option value="PPTI 21">PPTI 21</option>
-            <option value="PPTI 22">PPTI 22</option>
-            <option value="PPTI 23">PPTI 23</option>
-            <option value="PPTI 24">PPTI 24</option>
-            <option value="PPTI 25">PPTI 25</option>
-          </select>
-        </div>
-        <div>
-          <label>Hari Peminjaman</label>
-          <input type="date" name="tanggal" required>
-        </div>
-        <div>
-          <label>Jam Pemakaian</label>
-          <input type="time" name="jam_mulai" required>
-        </div>
-        <div>
-          <label>Selesai Pemakaian</label>
-          <input type="time" name="jam_selesai" required>
-        </div>
-        <div>
-          <label>Alasan Penggunaan</label>
-          <textarea name="alasan" required></textarea>
-        </div>
-        <div>
-          <label>Butuh STNK</label>
-          <select name="stnk" id="stnk" class="select">
-            <option value="" selected disabled hidden></option>
-            <option value="Perlu">Perlu</option>
-            <option value="Tidak">Tidak</option>
-          </select>
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-
-      <div class="footer">
-        <p>Terima kasih telah bersedia mengisi formulir ini.</p>
-      </div>
+    <div class="right">
+      <img src="image/zims3.png" alt="Maintenance Illustration" style="width: 250px; transform: scaleX(-1);">
+    </div>
+    <div class="left">
+      <h2>bye bye....💨</h2>
+      <p>Motornya zims pinjem dulu buat ke jakarta ya, See u Monday</p>
     </div>
   </div>
 
-  <div id="successModal" class="custom-modal">
-    <div class="custom-modal-content">
-      <div class="custom-modal-icon">
-        <img src="image/zims2.png" style="width: 200px;" alt="" srcset="">
-      </div>
-      <h2 class="custom-modal-title">Yey Berhasil</h2>
-      <p class="custom-modal-desc">Data kamu udah zims catat ya. Terima kasih sudah mengisi</p>
-      <button class="custom-modal-btn" onclick="closeModal()">Ok</button>
-    </div>
-  </div>
+  <script>
+    const countdownEl = document.getElementById("countdown");
+    let countDownDate = new Date().getTime() + (6 * 60 * 60 * 1000);
 
-  <div id="errorModal" class="custom-modal">
-    <div class="custom-modal-content">
-      <div class="custom-modal-icon">
-        <img src="image/zims4.png" style="width: 200px;" alt="Error">
-      </div>
-      <h2 class="custom-modal-title">Ups!</h2>
-      <p class="custom-modal-desc">
-        Zims liat jadwal peminjaman kamu bentrok dengan peminjaman lain nih.<br>
-      </p>
-      <button class="custom-modal-btn" onclick="closeErrorModal()">Ganti Jadwal</button>
-      <button class="custom-modal-btn" onclick="ceks()">Cek Jadwal</button>
-    </div>
-  </div>
+    let x = setInterval(function() {
+      let now = new Date().getTime();
+      let distance = countDownDate - now;
 
+      let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdownEl.innerHTML =
+        "00:" + (hours < 10 ? "0" + hours : hours) + ":" +
+        (minutes < 10 ? "0" + minutes : minutes) + ":" +
+        (seconds < 10 ? "0" + seconds : seconds);
+
+      if (distance < 0) {
+        clearInterval(x);
+        countdownEl.innerHTML = "00:00:00:00";
+      }
+    }, 1000);
+  </script>
 </body>
 </html>
